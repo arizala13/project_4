@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: MyHomePage(title: 'Welcome?'),
+        home: MyHomePage(title: 'Welcome!'),
       ),
     );
   }
@@ -28,27 +28,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-// This can be used to make a new jorunal entry 
-  void _newJournalEntry() {
-    setState(() {
-      //_counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {},
-            ),
-        ]
-          ),
-      body: Center(
-        child: Column(
+      appBar: AppBar(title: Text('Welcome!')),
+      body: Center(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
@@ -57,13 +41,29 @@ class _MyHomePageState extends State<MyHomePage> {
               size: 36.0,
               ),
           ],
+        ),),
+      endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Dark mode'),
+              decoration: BoxDecoration(
+                color: Colors.grey,
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                testing();
+              },
+            ),
+          ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _newJournalEntry,
-        tooltip: 'New Journal Entry',
-        child: Icon(Icons.add),
-      ),
     );
+  }
+
+  void testing(){
+  print('dark mode tapped!');
   }
 }
