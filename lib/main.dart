@@ -63,27 +63,37 @@ makeDarkMode(bool makeDark){
           ],
         ),),
       endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-               height : 50.0, 
-              child: DrawerHeader(
-                child: Text('Settings'),
-                decoration: new BoxDecoration(color: Colors.grey),
-              ),
+          child: Container(
+            color: Theme.of(context).appBarTheme.color,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  child: SizedBox(
+                     height : 100.0, 
+                    child: DrawerHeader(
+                      child: Text('Settings', style: Theme.of(context).textTheme.title),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Center(
+                    child: Container(
+                      child: Container(
+                        child: SwitchListTile(
+                          title: Text('Dark Mode?', style: Theme.of(context).textTheme.title),
+                          value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
+                          onChanged: (boolVal) {
+                            Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Center(
-              child: SwitchListTile(
-                title: Text('Dark Mode'),
-                value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
-                onChanged: (boolVal) {
-                  Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
-                },
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
     );
   }
 }
