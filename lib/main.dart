@@ -28,6 +28,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+bool val = false;
+
+makeDarkMode(bool makeDark){
+  setState(() {
+    val = makeDark; 
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,23 +53,29 @@ class _MyHomePageState extends State<MyHomePage> {
       endDrawer: Drawer(
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Dark mode'),
-              decoration: BoxDecoration(
-                color: Colors.grey,
+            SizedBox(
+               height : 50.0, 
+              child: DrawerHeader(
+                child: Text('Settings'),
+                decoration: new BoxDecoration(color: Colors.grey),
               ),
             ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                testing();
-              },
+            Center(
+              child: SwitchListTile(
+                title: Text('Dark Mode'),
+                value: val,
+                onChanged: (makeDark) {
+                  makeDarkMode(makeDark);
+                },
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+
 
   void testing(){
   print('dark mode tapped!');
