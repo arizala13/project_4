@@ -36,15 +36,6 @@ class ThemeDemo extends StatefulWidget {
 
 class ThemeDemoState extends State<ThemeDemo>{
 
-
-bool val = false;
-
-makeDarkMode(bool makeDark){
-  setState(() {
-    val = makeDark;    
-  });
-}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +48,9 @@ makeDarkMode(bool makeDark){
             Icon(
               Icons.book,
               color: Theme.of(context).iconTheme.color,
-              size: 36.0,
+              size: 100.0,
               ),
+              Text('Journal', style: Theme.of(context).textTheme.title),
           ],
         ),),
       endDrawer: Drawer(
@@ -79,7 +71,7 @@ makeDarkMode(bool makeDark){
                     child: Container(
                       child: Container(
                         child: SwitchListTile(
-                          title: Text('Dark Mode?', style: Theme.of(context).textTheme.title),
+                          title: Text('Dark Mode', style: Theme.of(context).textTheme.title),
                           value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
                           onChanged: (boolVal) {
                             Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
