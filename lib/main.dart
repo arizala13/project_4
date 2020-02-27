@@ -1,51 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'AppStateNotifier.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
+
+void main() {
+  runApp(
+    ChangeNotifierProvider<AppStateNotifier>(
+      builder: (context) => AppStateNotifier(),
+      child: MyApp(),
+      )
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
-        home: MyHomePage(title: 'Welcome!'),
-      ),
+    return Consumer<AppStateNotifier> (
+      builder: (context, appState, child){
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: appState.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+          home: ThemeDemo(),
+      );
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class ThemeDemo extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState() => ThemeDemoState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class ThemeDemoState extends State<ThemeDemo>{
+
 
 bool val = false;
 
 makeDarkMode(bool makeDark){
   setState(() {
-    val = makeDark; 
+    val = makeDark;    
   });
 }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Welcome!')),
+      appBar: AppBar(
+        title: Text('Welcome!', style: Theme.of(context).textTheme.title,)
+        ),
       body: Center(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
               Icons.book,
-              color: Colors.black54,
+              color: Theme.of(context).iconTheme.color,
               size: 36.0,
               ),
           ],
@@ -63,9 +75,9 @@ makeDarkMode(bool makeDark){
             Center(
               child: SwitchListTile(
                 title: Text('Dark Mode'),
-                value: val,
-                onChanged: (makeDark) {
-                  makeDarkMode(makeDark);
+                value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
+                onChanged: (boolVal) {
+                  Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
                 },
               ),
             ),
@@ -74,10 +86,37 @@ makeDarkMode(bool makeDark){
       ),
     );
   }
+}
 
+class AppTheme {
+  AppTheme._();
 
+  static final ThemeData lightTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.teal,
+    appBarTheme: AppBarTheme(
 
-  void testing(){
-  print('dark mode tapped!');
-  }
+      color: Colors.teal,
+      iconTheme: IconThemeData(
+        color: Colors.black,
+        )
+    )
+  );
+
+    static final ThemeData darkTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.black,
+    textTheme: TextTheme(
+      title: TextStyle(color: Colors.white),
+    ),
+    iconTheme: IconThemeData(
+        color: Colors.white,
+        ),
+    appBarTheme: AppBarTheme(
+      color: Colors.black,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+        )
+    )
+
+  );
+
 }
