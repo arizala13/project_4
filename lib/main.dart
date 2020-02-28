@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'AppStateNotifier.dart';
 import 'ThemeInfo.dart';
+import 'JournalEntryForm.dart';
 
 void main() {
   runApp(
@@ -39,6 +40,15 @@ class ThemeDemoState extends State<ThemeDemo>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push( context,
+    MaterialPageRoute(builder: (context) => JournalEntryForm()),
+    );
+      },
+      child: Icon(Icons.add),
+      backgroundColor: Theme.of(context).appBarTheme.color,
+    ),
       appBar: AppBar(
         title: Text('Welcome!', style: Theme.of(context).textTheme.title,)
         ),
