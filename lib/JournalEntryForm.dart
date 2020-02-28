@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'AppStateNotifier.dart';
-import 'ThemeInfo.dart';
-import 'JournalEntryForm.dart';
 
 class JournalEntryFields {
   String title;
@@ -28,9 +26,15 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
   Widget build(BuildContext context) {
         return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome!', style: Theme.of(context).textTheme.title,)
+        title: Text('New Journal Entry', style: Theme.of(context).textTheme.title,)
         ),
-      body: Center(child: Column(
+      body: Center(child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Form(
+          key: formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Column(
             children: [     
               new TextFormField(
                   autofocus: true,
@@ -103,6 +107,9 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                     ),
           ],
         ),
+                ),
+        ),
+      )
                 ),
       endDrawer: Drawer(
           child: Container(
