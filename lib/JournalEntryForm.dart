@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'AppStateNotifier.dart';
+import 'ThemeInfo.dart';
+import 'JournalEntryForm.dart';
 
 class JournalEntryFields {
   String title;
@@ -22,15 +26,12 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: Form(
-          key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(50.0),
-                  child: Column(
-            children: [
+        return Scaffold(
+      appBar: AppBar(
+        title: Text('Welcome!', style: Theme.of(context).textTheme.title,)
+        ),
+      body: Center(child: Column(
+            children: [     
               new TextFormField(
                   autofocus: true,
                   style: TextStyle(color: Theme.of(context).iconTheme.color),
@@ -103,8 +104,38 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
           ],
         ),
                 ),
+      endDrawer: Drawer(
+          child: Container(
+            color: Theme.of(context).appBarTheme.color,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  child: SizedBox(
+                     height : 100.0, 
+                    child: DrawerHeader(
+                      child: Text('Settings', style: Theme.of(context).textTheme.title),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Center(
+                    child: Container(
+                      child: Container(
+                        child: SwitchListTile(
+                          title: Text('Dark Mode', style: Theme.of(context).textTheme.title),
+                          value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
+                          onChanged: (boolVal) {
+                            Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      )
-      );
+    );
   }
 }
