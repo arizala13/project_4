@@ -35,8 +35,14 @@ class ThemeDemo extends StatefulWidget {
   State<StatefulWidget> createState() => ThemeDemoState();
 }
 
-class ThemeDemoState extends State<ThemeDemo>{
-  
+class ThemeDemoState extends State<ThemeDemo>{  
+
+  bool isDarkModeOn = false;
+
+  void initState() {
+    super.initState();
+    isDarkModeOn = false;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
