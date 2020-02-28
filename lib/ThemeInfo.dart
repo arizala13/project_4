@@ -5,6 +5,9 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey,
+    textTheme: TextTheme(
+      title: TextStyle(color: Colors.black),
+    ),
     appBarTheme: AppBarTheme(
 
       color: Colors.blueGrey,
