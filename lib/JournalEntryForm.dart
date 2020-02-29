@@ -103,7 +103,7 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                         print('HERE WE 1....');
                         formKey.currentState.save();
                         addDateToJournalEntryValues();
-                        //await deleteDatabase('journal.db');
+                        await deleteDatabase('journal.db');
 
                         print('HERE WE 2....');
 
@@ -169,7 +169,7 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
 
   void addDateToJournalEntryValues() {
     //journalEntryFields.dateTime = DateTime.now() as String;
-    journalEntryFields.dateTime = 'help';
+    journalEntryFields.dateTime = DateTime.now().toString();
   }
 
 
