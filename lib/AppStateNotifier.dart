@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-//TODO: I need to update this to make it work correctly with shared prefrences 
+// I need to update this to make it work correctly with shared prefrences 
   class AppStateNotifier extends ChangeNotifier{
 
     bool isDarkModeOn = false;

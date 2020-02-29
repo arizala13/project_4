@@ -6,10 +6,11 @@ import 'AppStateNotifier.dart';
 class JournalEntryFields {
   String title;
   String body;
-  String dateTime = DateTime.now().toString();
+  //String dateTime = DateTime.now().toString();
+  String dateTime;
   String rating;
   String toString() {
-    return 'Title $title, Body $body, Ratings $rating, DateTime: $dateTime';
+    return 'Title: $title, Body: $body, Ratings: $rating, DateTime: $dateTime';
   }
 }
 
@@ -99,20 +100,23 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                   RaisedButton(
                     onPressed: () async{
                       if (formKey.currentState.validate()) {
+                        print('HERE WE 1....');
                         formKey.currentState.save();
                         addDateToJournalEntryValues();
-                        await deleteDatabase('journal.db');
+                        //await deleteDatabase('journal.db');
+
+                        print('HERE WE 2....');
 
                         final Database database = await openDatabase(
                           'journal.db', version: 1, onCreate: (Database db, int version) async {
                             await db.execute(
-                            'CREATE TABLE IF NOT EXISTS journal_entries(id INTEGER PRIMARY KEY, title TEXT, body TEXT, rating TEXT, dateTime Text');
+                            'CREATE TABLE IF NOT EXISTS journal_entries(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, body TEXT NOT NULL, rating INTEGER NOT NULL, date TEXT NOT NULL)');
                           }
                           );
 
                         await database.transaction( (txn) async {
-                          await txn.rawInsert('INSERT INTO journal_entries(title, body, dateTime, rating) VALUES(?, ?, ?, ?)',
-                          [journalEntryFields.title, journalEntryFields.body, journalEntryFields.rating, journalEntryFields.rating],
+                          await txn.rawInsert('INSERT INTO journal_entries(title, body, date, rating) VALUES(?, ?, ?, ?)',
+                          [journalEntryFields.title, journalEntryFields.body, journalEntryFields.dateTime, journalEntryFields.rating],
                           );
                         }); 
 
@@ -164,7 +168,8 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
   }
 
   void addDateToJournalEntryValues() {
-    journalEntryFields.dateTime = DateTime.now() as String;
+    //journalEntryFields.dateTime = DateTime.now() as String;
+    journalEntryFields.dateTime = 'help';
   }
 
 
