@@ -168,7 +168,6 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
   }
 
   void addDateToJournalEntryValues() {
-    //journalEntryFields.dateTime = DateTime.now() as String;
     journalEntryFields.dateTime = DateTime.now().toString();
   }
 
