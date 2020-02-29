@@ -6,10 +6,10 @@ import 'AppStateNotifier.dart';
 class JournalEntryFields {
   String title;
   String body;
-  DateTime dateTime;
+  String dateTime = DateTime.now().toString();
   String rating;
   String toString() {
-    return 'Title $title, Body $body, Ratings: $rating';
+    return 'Title $title, Body $body, Ratings $rating, DateTime: $dateTime';
   }
 }
 
@@ -102,16 +102,17 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                         formKey.currentState.save();
                         addDateToJournalEntryValues();
                         await deleteDatabase('journal.db');
+
                         final Database database = await openDatabase(
                           'journal.db', version: 1, onCreate: (Database db, int version) async {
                             await db.execute(
-                            'CREATE TABLE IF NOT EXISTS journal_entries(title TEXT, body TEXT, rating TEXT');
+                            'CREATE TABLE IF NOT EXISTS journal_entries(id INTEGER PRIMARY KEY, title TEXT, body TEXT, rating TEXT, dateTime Text');
                           }
                           );
 
                         await database.transaction( (txn) async {
-                          await txn.rawInsert('INSERT INTO journal_entries(title, body, rating) VALUES(?, ?, ?)',
-                          [journalEntryFields.title, journalEntryFields.body, journalEntryFields.rating],
+                          await txn.rawInsert('INSERT INTO journal_entries(title, body, dateTime, rating) VALUES(?, ?, ?, ?)',
+                          [journalEntryFields.title, journalEntryFields.body, journalEntryFields.rating, journalEntryFields.rating],
                           );
                         }); 
 
@@ -163,7 +164,7 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
   }
 
   void addDateToJournalEntryValues() {
-    journalEntryFields.dateTime = DateTime.now();
+    journalEntryFields.dateTime = DateTime.now() as String;
   }
 
 
