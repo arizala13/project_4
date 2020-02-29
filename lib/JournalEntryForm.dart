@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'AppStateNotifier.dart';
 
 class JournalEntryFields {
   String title;
   String body;
   DateTime dateTime;
-  int rating;
+  String rating;
   String toString() {
-    return 'Title $title, Body $body, Time: $dateTime, Ratings: $rating';
+    return 'Title $title, Body $body, Ratings: $rating';
   }
 }
 
@@ -45,7 +46,7 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                       
                     ),
                     onSaved: (value) {
-                      //journalEntryFields.title = value;
+                      journalEntryFields.title = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -64,7 +65,7 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                     labelText: 'Body', border: OutlineInputBorder(),
                     ),
                     onSaved: (value) {
-                      //journalEntryFields.body = value; 
+                      journalEntryFields.body = value; 
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -83,7 +84,7 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                     labelText: 'Rating', border: OutlineInputBorder(), 
                     ),
                     onSaved: (value) {
-                      //journalEntryFields.rating = value as int; 
+                      journalEntryFields.rating = value; 
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -96,10 +97,25 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                   ),
                   SizedBox(height: 10),
                   RaisedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
-                        //Database.of(context).saveJournalEntry(journalEntryFields);
+                        addDateToJournalEntryValues();
+                        await deleteDatabase('journal.db');
+                        final Database database = await openDatabase(
+                          'journal.db', version: 1, onCreate: (Database db, int version) async {
+                            await db.execute(
+                            'CREATE TABLE IF NOT EXISTS journal_entries(title TEXT, body TEXT, rating TEXT');
+                          }
+                          );
+
+                        await database.transaction( (txn) async {
+                          await txn.rawInsert('INSERT INTO journal_entries(title, body, rating) VALUES(?, ?, ?)',
+                          [journalEntryFields.title, journalEntryFields.body, journalEntryFields.rating],
+                          );
+                        }); 
+
+                        await database.close();
                         Navigator.of(context).pop();
                       }
                     },
@@ -145,4 +161,10 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
         ),
     );
   }
+
+  void addDateToJournalEntryValues() {
+    journalEntryFields.dateTime = DateTime.now();
+  }
+
+
 }
