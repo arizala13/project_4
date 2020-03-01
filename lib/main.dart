@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'AppStateNotifier.dart';
 import 'ThemeInfo.dart';
 import 'JournalEntryForm.dart';
+import 'journal_entry_list.dart';
 
 void main() {
   runApp(

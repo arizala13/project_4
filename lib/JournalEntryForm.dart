@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'AppStateNotifier.dart';
+import 'journal_entry_list.dart';
 
 class JournalEntryFields {
   String title;
   String body;
-  //String dateTime = DateTime.now().toString();
   String dateTime;
   String rating;
   String toString() {
@@ -121,7 +121,12 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                         }); 
 
                         await database.close();
-                        Navigator.of(context).pop();
+                        //Navigator.of(context).pop();
+
+                        //update to list of journal entries 
+                        Navigator.push( context,
+                        MaterialPageRoute(builder: (context) => JournalEntryList()),
+                        );
                       }
                     },
                     child: Text('Save Entry'),
