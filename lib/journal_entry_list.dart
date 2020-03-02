@@ -37,7 +37,40 @@ class JournalEntriesScreen extends StatelessWidget {
             title: Text('Journal Entry ${items[index]['title']}', style:(Theme.of(context).textTheme.title)),
             subtitle: Text('Example ${items[index]['subtitle']}', style:(Theme.of(context).textTheme.title)),
             );
-      })
+      }
+      ),
+            endDrawer: Drawer(
+          child: Container(
+            color: Theme.of(context).appBarTheme.color,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  child: SizedBox(
+                     height : 100.0, 
+                    child: DrawerHeader(
+                      child: Text('Settings', style: Theme.of(context).textTheme.title),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Center(
+                    child: Container(
+                      child: Container(
+                        child: SwitchListTile(
+                          title: Text('Dark Mode', style: Theme.of(context).textTheme.title),
+                          value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
+                          onChanged: (boolVal) {
+                            Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
     );
   }
 }
