@@ -125,8 +125,10 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
 
                         //update to list of journal entries 
                         Navigator.push( context,
-                        MaterialPageRoute(builder: (context) => JournalEntryList()),
+                        MaterialPageRoute(builder: (context) => JournalEntriesScreen()),
                         );
+
+                         //Navigator.push(context, JournalEntriesScreen());
                       }
                     },
                     child: Text('Save Entry'),
