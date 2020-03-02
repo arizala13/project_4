@@ -100,12 +100,9 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                   RaisedButton(
                     onPressed: () async{
                       if (formKey.currentState.validate()) {
-                        print('HERE WE 1....');
                         formKey.currentState.save();
                         addDateToJournalEntryValues();
                         await deleteDatabase('journal.db');
-
-                        print('HERE WE 2....');
 
                         final Database database = await openDatabase(
                           'journal.db', version: 1, onCreate: (Database db, int version) async {
@@ -121,14 +118,10 @@ class _JournalEntryFormState extends State<JournalEntryForm>{
                         }); 
 
                         await database.close();
-                        //Navigator.of(context).pop();
 
-                        //update to list of journal entries 
                         Navigator.push( context,
                         MaterialPageRoute(builder: (context) => JournalEntriesScreen()),
                         );
-
-                         //Navigator.push(context, JournalEntriesScreen());
                       }
                     },
                     child: Text('Save Entry'),
